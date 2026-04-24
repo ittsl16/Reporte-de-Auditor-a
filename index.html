@@ -391,36 +391,14 @@ let reporteData = null;
 // ══════════════════════════════════════════════════════════════════
 //  HELPERS
 // ══════════════════════════════════════════════════════════════════
-function activarDemo() {
-  // Cambia a modo demo y vuelve a generar
-  window._demoActivo = true;
-  document.getElementById('error-servidor').classList.add('hidden');
-  toast('🧪 Modo demo activado', 'success');
-  setTimeout(() => generarReporteModo(true), 300);
-}
 
-function generarReporteModo(demo) {
-  const inicio = document.getElementById('fecha-inicio').value || '2025-04-01';
-  const fin    = document.getElementById('fecha-fin').value    || '2025-04-30';
-  const modulo    = document.getElementById('filtro-modulo').value;
-  const cuadrilla = document.getElementById('filtro-cuadrilla').value;
-  const resp = getDemoData();
-  reporteData = { inicio, fin, modulo, cuadrilla,
-    recibos:   resp.data.recibos,
-    armados:   resp.data.armados,
-    embarques: resp.data.embarques
-  };
-  renderPreview(reporteData);
-  document.getElementById('preview-area').classList.remove('hidden');
-  toast('✅ Modo demo — datos de ejemplo cargados', 'success');
-}
 
 function mostrarErrorServidor(detalle) {
   const el = document.getElementById('error-servidor');
   const det = document.getElementById('error-detalle');
   if (el) el.classList.remove('hidden');
   if (det && detalle) det.textContent = 'Detalle: ' + detalle;
-}
+
   const t = document.getElementById('toast');
   t.textContent = msg; t.className = 'toast ' + type;
   void t.offsetWidth; t.classList.add('show');
