@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Reporte de Auditoría </title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ── RESET & BASE ─────────────────────────────────────────────── */
+:root {
+  --red:    #CF002E;
+  --yellow: #FDD000;
+  --black:  #1A1A1A;
+  --gray:   #6B6B6B;
+  --light:  #F4F4F4;
+  --border: #E2E2E2;
+  --shadow: 0 2px 16px rgba(0,0,0,0.10);
+  --radius: 12px;
+}
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+body { font-family:'IBM Plex Sans',sans-serif; background:var(--light); color:var(--black); min-height:100vh; }
+
+/* ── HEADER ──────────────────────────────────────────────────── */
+.page-header {
+  background:linear-gradient(135deg,#CF002E 0%,#8B001F 100%);
+  padding:20px 20px 0;
+  position:relative;
+}
+.page-header::after {
+  content:''; position:absolute; bottom:0; left:0; right:0;
+  height:4px; background:var(--yellow);
+}
+.ph-inner { display:flex; align-items:center; gap:12px; padding-bottom:18px; }
+.ph-logo {
+  width:42px; height:42px; background:var(--yellow); border-radius:8px;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'IBM Plex Sans Condensed',sans-serif;
+  font-size:14px; font-weight:800; color:var(--red); flex-shrink:0;
+}
+.ph-text h1 { font-family:'IBM Plex Sans Condensed',sans-serif; font-size:18px; font-weight:800; color:white; letter-spacing:.2px; }
+.ph-text p  { font-size:10px; color:rgba(255,255,255,.65); text-transform:uppercase; letter-spacing:1.5px; margin-top:2px; }
+
+/* ── MAIN ─────────────────────────────────────────────────────── */
+main { padding:16px; max-width:640px; margin:0 auto; }
+
+/* ── CARD ─────────────────────────────────────────────────────── */
+.card {
+  background:white; border-radius:var(--radius); padding:18px;
+  margin-bottom:12px; box-shadow:var(--shadow); border:1px solid var(--border);
+}
+.card-title {
+  font-family:'IBM Plex Sans Condensed',sans-serif; font-size:12px;
+  font-weight:800; text-transform:uppercase; letter-spacing:.8px;
+  color:var(--red); margin-bottom:14px; padding-bottom:8px;
+  border-bottom:2.5px solid var(--yellow);
+  display:flex; align-items:center; gap:7px;
+}
+
+/* ── FORM ROWS ────────────────────────────────────────────────── */
+.form-row   { margin-bottom:13px; }
+.form-row-2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:13px; }
+label {
+  display:block; font-size:10px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.7px; color:var(--gray); margin-bottom:5px;
+}
+input[type="date"], select {
+  width:100%; padding:10px 12px; border:1.5px solid var(--border);
+  border-radius:8px; font-family:'IBM Plex Sans',sans-serif;
+  font-size:13px; color:var(--black); background:#FAFAFA;
+  transition:border-color .18s,box-shadow .18s;
+  appearance:none; -webkit-appearance:none;
+}
+input:focus, select:focus {
+  outline:none; border-color:var(--red);
+  box-shadow:0 0 0 3px rgba(207,0,46,.07); background:white;
+}
+select {
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23CF002E' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 12px center; padding-right:34px;
+}
+
+/* ── BUTTON ───────────────────────────────────────────────────── */
+.btn {
+  display:flex; align-items:center; justify-content:center; gap:7px;
+  width:100%; padding:13px 16px; border:none; border-radius:10px;
+  font-family:'IBM Plex Sans',sans-serif; font-size:14px; font-weight:700;
+  cursor:pointer; transition:all .2s; letter-spacing:.01em;
+}
+.btn:disabled { opacity:.5; cursor:not-allowed; }
+.btn-primary {
+  background:linear-gradient(135deg,#CF002E,#8B001F); color:white;
+  box-shadow:0 4px 14px rgba(207,0,46,.3);
+}
+.btn-primary:not(:disabled):hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(207,0,46,.4); }
+.btn-download {
+  background:linear-gradient(135deg,#1A1A1A,#383838); color:white;
+  box-shadow:0 4px 14px rgba(0,0,0,.25); margin-top:10px;
+}
+.btn-download:not(:disabled):hover { transform:translateY(-1px); }
+
+/* ── INFO BANNER ──────────────────────────────────────────────── */
+.info-banner {
+  background:linear-gradient(135deg,#FFFDE0,#FFF8CC);
+  border:1.5px solid rgba(253,208,0,.7);
+  border-radius:10px; padding:12px 14px;
+  font-size:11px; color:#6B5000; margin-bottom:12px;
+  display:flex; align-items:flex-start; gap:9px;
+}
+.info-banner .ib-icon { font-size:18px; flex-shrink:0; margin-top:-1px; }
+
+/* ── STATS GRID ───────────────────────────────────────────────── */
+.stats-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
+  gap:9px; margin-bottom:4px;
+}
+.stat-card {
+  background:#FAFAFA; border-radius:8px; padding:11px 13px;
+  border:1px solid var(--border); border-left:3px solid var(--red);
+}
+.stat-lbl { font-size:8px; font-weight:700; text-transform:uppercase; color:#888; letter-spacing:.6px; margin-bottom:4px; }
+.stat-val { font-family:'IBM Plex Sans Condensed',sans-serif; font-weight:700; font-size:22px; color:var(--black); line-height:1; }
+
+/* ── PREVIEW TABLE ────────────────────────────────────────────── */
+.preview-wrap { overflow-x:auto; margin-top:10px; border-radius:8px; border:1px solid var(--border); }
+.preview-table { width:100%; border-collapse:collapse; font-size:10px; min-width:500px; }
+.preview-table thead tr { background:var(--black); }
+.preview-table th {
+  color:white; padding:9px 10px; text-align:left;
+  font-size:8px; text-transform:uppercase; letter-spacing:.6px; font-weight:600;
+}
+.preview-table td { padding:7px 10px; border-bottom:1px solid #EAEAEA; vertical-align:middle; }
+.preview-table tr:nth-child(even) td { background:#FAFAFA; }
+
+/* ── BADGE ────────────────────────────────────────────────────── */
+.badge {
+  display:inline-block; padding:2px 8px; border-radius:4px;
+  font-size:8px; font-weight:700; text-transform:uppercase; letter-spacing:.4px;
+}
+.badge-ok     { background:#FDD000; color:#5A3D00; }
+.badge-warn   { background:rgba(207,0,46,.12); color:#CF002E; border:1px solid rgba(207,0,46,.25); }
+.badge-cancel { background:rgba(100,0,20,.08); color:#8B001F; border:1px solid rgba(100,0,20,.2); }
+
+/* ── SECTION DIVIDER ──────────────────────────────────────────── */
+.section-label {
+  font-family:'IBM Plex Sans Condensed',sans-serif; font-size:11px;
+  font-weight:800; text-transform:uppercase; letter-spacing:1px;
+  color:var(--red); margin:16px 0 8px;
+  display:flex; align-items:center; gap:7px;
+}
+.section-label::after { content:''; flex:1; height:2px; background:var(--yellow); border-radius:99px; }
+
+/* ── LOADING / EMPTY ──────────────────────────────────────────── */
+.state-box {
+  text-align:center; padding:32px 20px; color:var(--gray);
+}
+.state-box .state-icon { font-size:42px; margin-bottom:10px; }
+.state-box .state-msg  { font-weight:700; font-size:14px; }
+.state-box .state-sub  { font-size:11px; margin-top:5px; color:#AAA; }
+
+/* ── SPINNER ──────────────────────────────────────────────────── */
+.spinner {
+  width:32px; height:32px; border:3px solid var(--border);
+  border-top-color:var(--red); border-radius:50%;
+  animation:spin .7s linear infinite; margin:0 auto 12px;
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+
+/* ── PHOTOS SECTION ───────────────────────────────────────────── */
+.fotos-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:7px; margin-top:8px;
+}
+.foto-thumb {
+  aspect-ratio:1; border-radius:8px; overflow:hidden;
+  box-shadow:0 2px 8px rgba(0,0,0,.1); background:#EBEBEB;
+}
+.foto-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.foto-loading { display:flex; align-items:center; justify-content:center; font-size:20px; height:100%; }
+
+/* ── HIDDEN ───────────────────────────────────────────────────── */
+.hidden { display:none !important; }
+
+/* ── TOAST ────────────────────────────────────────────────────── */
+.toast {
+  position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px);
+  background:#1A1A1A; color:white; padding:10px 20px; border-radius:99px;
+  font-size:13px; font-weight:600; white-space:nowrap;
+  opacity:0; transition:opacity .25s,transform .25s; z-index:9999;
+  box-shadow:0 4px 18px rgba(0,0,0,.3);
+}
+.toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+.toast.success { background:linear-gradient(135deg,#CF002E,#8B001F); }
+.toast.error   { background:#B71C1C; }
+
+/* ── PRINT STYLES ─────────────────────────────────────────────── */
+@media print {
+  body { background:white; }
+}
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <div class="ph-inner">
+    <div class="ph-logo">DHL</div>
+    <div class="ph-text">
+      <h1>Reporte de Auditoría</h1>
+      <p>Sistema de Pallets · Generador de PDF</p>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- INFO -->
+  <div class="info-banner" style="margin-top:14px">
+    <span class="ib-icon">💡</span>
+    <div>
+      Selecciona el rango de fechas y los filtros opcionales. Luego presiona <strong>Generar Reporte</strong> para previsualizar y descargar el PDF con todos los registros.
+    </div>
+  </div>
+
+  <!-- FILTROS -->
+  <div class="card">
+    <div class="card-title">🗓 Filtros del Reporte</div>
+
+    <div class="form-row-2">
+      <div>
+        <label>Fecha inicio <span style="color:var(--red)">*</span></label>
+        <input type="date" id="fecha-inicio">
+      </div>
+      <div>
+        <label>Fecha fin <span style="color:var(--red)">*</span></label>
+        <input type="date" id="fecha-fin">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label>Módulo</label>
+      <select id="filtro-modulo">
+        <option value="todos">Todos los módulos</option>
+        <option value="embarque">Embarque</option>
+        <option value="recibo">Recibo de Importados</option>
+        <option value="armado">Armados</option>
+      </select>
+    </div>
+
+    <div class="form-row" style="margin-bottom:0">
+      <label>Cuadrilla</label>
+      <select id="filtro-cuadrilla">
+        <option value="">Todas las cuadrillas</option>
+        <option>A</option>
+        <option>B</option>
+        <option>C</option>
+        <option>D</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- BOTÓN GENERAR -->
+  <button class="btn btn-primary" id="btn-generar" onclick="generarReporte()">
+    <span>🔍</span> Generar Reporte
+  </button>
+
+  <!-- ERROR SERVIDOR -->
+  <div id="error-servidor" class="hidden" style="margin-top:14px;background:linear-gradient(135deg,#FFF0F0,#FFE8E8);border:1.5px solid rgba(207,0,46,.4);border-radius:10px;padding:14px 16px">
+    <div style="display:flex;align-items:flex-start;gap:10px">
+      <span style="font-size:20px;flex-shrink:0">⚠️</span>
+      <div>
+        <div style="font-weight:700;font-size:13px;color:#CF002E;margin-bottom:6px">El servidor no respondió</div>
+        <div style="font-size:11px;color:#7A0020;line-height:1.6">
+          Esto ocurre porque el <strong>Google Apps Script no tiene el endpoint <code>get_reporte</code></strong> publicado aún.
+          <br><br>
+          <strong>Solución:</strong><br>
+          1. Abre tu Google Apps Script<br>
+          2. Agrega la función <code>getReporteHistorico</code> del archivo <em>APPS_SCRIPT_get_reporte.js</em> que se descargó junto a este HTML<br>
+          3. Re-publica el script como webapp (nueva versión)<br>
+          4. Vuelve a intentar aquí
+          <br><br>
+          Mientras tanto, activa el <strong>Modo Demo</strong> para probar el PDF:
+        </div>
+        <button onclick="activarDemo()" style="margin-top:10px;padding:8px 16px;background:#CF002E;color:white;border:none;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer">
+          🧪 Activar Modo Demo
+        </button>
+        <div id="error-detalle" style="font-size:10px;color:#AAA;margin-top:8px"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PREVIEW AREA -->
+  <div id="preview-area" class="hidden" style="margin-top:16px">
+
+    <!-- STATS GENERALES -->
+    <div class="section-label">📈 Resumen General</div>
+    <div class="stats-grid" id="stats-generales"></div>
+
+    <!-- RECIBOS -->
+    <div id="seccion-recibos" class="hidden">
+      <div class="section-label">📦 Recibo de Importados</div>
+      <div class="stats-grid" id="stats-recibos"></div>
+      <div class="preview-wrap">
+        <table class="preview-table" id="tabla-recibos">
+          <thead>
+            <tr>
+              <th>Fecha</th><th>Cuad.</th><th>Auditor</th><th>STO</th>
+              <th>Cortina</th><th>Tipo</th><th>CHEP</th><th>Blancas</th><th>Estado</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-recibos"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ARMADOS -->
+    <div id="seccion-armados" class="hidden">
+      <div class="section-label">🔧 Armados</div>
+      <div class="preview-wrap">
+        <table class="preview-table" id="tabla-armados">
+          <thead>
+            <tr>
+              <th>Fecha</th><th>Cuad.</th><th>Auditor</th><th>Unidad</th>
+              <th>Subtipo</th><th>Cliente</th><th>CHEP</th><th>Blancas</th><th>Estado</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-armados"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- EMBARQUES -->
+    <div id="seccion-embarques" class="hidden">
+      <div class="section-label">🚛 Embarques</div>
+      <div class="stats-grid" id="stats-embarques"></div>
+      <div class="preview-wrap">
+        <table class="preview-table" id="tabla-embarques">
+          <thead>
+            <tr>
+              <th>Fecha</th><th>Cuad.</th><th>Auditor</th><th>Unidad</th>
+              <th>Cliente</th><th>Cortina</th><th>Tipo</th><th>MC</th>
+              <th>Dif P/MC</th><th>Dif MC/Fac</th><th>Estado</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-embarques"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- EVIDENCIA FOTOGRÁFICA -->
+    <div id="seccion-fotos" class="hidden">
+      <div class="section-label">📸 Imágenes de Evidencia</div>
+      <div id="fotos-container"></div>
+    </div>
+
+    <!-- SIN DATOS -->
+    <div id="sin-datos" class="hidden state-box">
+      <div class="state-icon">📭</div>
+      <div class="state-msg">Sin registros en este período</div>
+      <div class="state-sub">Verifica el rango de fechas y los filtros seleccionados</div>
+    </div>
+
+    <!-- BOTÓN DESCARGAR PDF -->
+    <button class="btn btn-download" id="btn-pdf" onclick="descargarPDF()">
+      <span>⬇️</span> Descargar PDF Completo
+    </button>
+
+  </div>
+
+  <!-- CARGANDO -->
+  <div id="loading-area" class="hidden card" style="margin-top:16px">
+    <div class="state-box">
+      <div class="spinner"></div>
+      <div class="state-msg" id="loading-msg">Consultando servidor...</div>
+      <div class="state-sub" id="loading-sub">Esto puede tomar unos segundos</div>
+    </div>
+  </div>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════════════════════════════
+//  CONFIG — mismas URLs que el sistema principal
+// ══════════════════════════════════════════════════════════════════
+const API_URL   = 'https://script.google.com/macros/s/AKfycbxlC0tSisFO6IjAtQu-HGwmg1MGEAJAURVeqNW9zx1tyY7X_XcafdFulPSL7xtUOTw/exec';
+const API_URL_2 = 'https://script.google.com/macros/s/AKfycby8Ni7jJgTBNxZhKx4ziFET4MU_rqNkLuQtl83tHkkUXnKihWTBHYy6K6M3EiWzhP0t/exec';
+
+const DEMO_MODE = false;
+let reporteData = null;
+
+// ══════════════════════════════════════════════════════════════════
+//  HELPERS
+// ══════════════════════════════════════════════════════════════════
+function activarDemo() {
+  // Cambia a modo demo y vuelve a generar
+  window._demoActivo = true;
+  document.getElementById('error-servidor').classList.add('hidden');
+  toast('🧪 Modo demo activado', 'success');
+  setTimeout(() => generarReporteModo(true), 300);
+}
+
+function generarReporteModo(demo) {
+  const inicio = document.getElementById('fecha-inicio').value || '2025-04-01';
+  const fin    = document.getElementById('fecha-fin').value    || '2025-04-30';
+  const modulo    = document.getElementById('filtro-modulo').value;
+  const cuadrilla = document.getElementById('filtro-cuadrilla').value;
+  const resp = getDemoData();
+  reporteData = { inicio, fin, modulo, cuadrilla,
+    recibos:   resp.data.recibos,
+    armados:   resp.data.armados,
+    embarques: resp.data.embarques
+  };
+  renderPreview(reporteData);
+  document.getElementById('preview-area').classList.remove('hidden');
+  toast('✅ Modo demo — datos de ejemplo cargados', 'success');
+}
+
+function mostrarErrorServidor(detalle) {
+  const el = document.getElementById('error-servidor');
+  const det = document.getElementById('error-detalle');
+  if (el) el.classList.remove('hidden');
+  if (det && detalle) det.textContent = 'Detalle: ' + detalle;
+}
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast ' + type;
+  void t.offsetWidth; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3200);
+}
+
+function setLoading(visible, msg = 'Consultando servidor...', sub = 'Esto puede tomar unos segundos') {
+  document.getElementById('loading-area').classList.toggle('hidden', !visible);
+  document.getElementById('loading-msg').textContent = msg;
+  document.getElementById('loading-sub').textContent = sub;
+}
+
+function fmtFecha(v) {
+  if (!v) return '—';
+  try { return new Date(v + 'T12:00:00').toLocaleDateString('es-MX', { day:'numeric', month:'short', year:'numeric' }); }
+  catch { return v; }
+}
+
+function badgeClass(estado) {
+  const s = (estado || '').toLowerCase();
+  if (s.includes('finaliz') || s.includes('ok') || s.includes('completo')) return 'badge-ok';
+  if (s.includes('cancel')) return 'badge-cancel';
+  return 'badge-warn';
+}
+
+function makeStat(label, val, extra = '') {
+  return `<div class="stat-card">
+    <div class="stat-lbl">${label}</div>
+    <div class="stat-val">${val}${extra ? ' <span style="font-size:10px;font-weight:600;color:var(--gray)">' + extra + '</span>' : ''}</div>
+  </div>`;
+}
+
+// ══════════════════════════════════════════════════════════════════
+//  GENERAR REPORTE
+// ══════════════════════════════════════════════════════════════════
+// Datos de demo para probar el PDF sin servidor
+function getDemoData() {
+  return {
+    ok: true,
+    data: {
+      recibos: [
+        { fecha:'2025-04-20', cuadrilla:'A', auditor:'Daniela Ortega Osorio', sto:'STO-001', cortina:'DOOR12', tipo_recibo:'Paletizado', pallets_chep:'10', pallets_blancas:'5', estado:'Finalizado' },
+        { fecha:'2025-04-21', cuadrilla:'B', auditor:'Carlos Gonzalez Beltran', sto:'STO-002', cortina:'DOOR14', tipo_recibo:'Granel', pallets_chep:'0', pallets_blancas:'8', estado:'Herencia' },
+      ],
+      armados: [
+        { fecha:'2025-04-20', cuadrilla:'A', auditor:'Miriam Gutierrez Santiago', unidad_envio:'TX-1234', subtipo:'Armado Especial', cliente:'WALMART', pallets_chep:'12', pallets_blancas:'3', estado:'Finalizado' },
+      ],
+      embarques: [
+        { fecha:'2025-04-20', cuadrilla:'A', auditor:'Ana Karen Gallardo', unidad_envio:'MX-5678', cliente:'COSTCO', cortina:'DOOR08', tipo_carga:'FTL', status_mc:'Correcto', dif_prime_mc:'0', dif_mc_factura:'0', pallets_chep:'18', pallets_blancas:'6', estado:'Finalizado' },
+        { fecha:'2025-04-21', cuadrilla:'C', auditor:'Griselda Nolasco Campos', unidad_envio:'MX-9999', cliente:'SORIANA', cortina:'DOOR03', tipo_carga:'LTL', status_mc:'Incorrecto', dif_prime_mc:'2', dif_mc_factura:'-1', pallets_chep:'8', pallets_blancas:'2', estado:'Pendiente' },
+        { fecha:'2025-04-22', cuadrilla:'B', auditor:'Belen Gomez Parra', unidad_envio:'TX-0011', cliente:'HEB', cortina:'DOOR07', tipo_carga:'FTL', status_mc:'Correcto', dif_prime_mc:'0', dif_mc_factura:'0', pallets_chep:'20', pallets_blancas:'0', estado:'Cancelado' },
+      ]
+    }
+  };
+}
+
+function generarReporte() {
+  const inicio = document.getElementById('fecha-inicio').value;
+  const fin    = document.getElementById('fecha-fin').value;
+  if (!inicio || !fin) { toast('Selecciona ambas fechas', 'error'); return; }
+  if (inicio > fin)    { toast('La fecha de inicio no puede ser mayor al fin', 'error'); return; }
+
+  const modulo    = document.getElementById('filtro-modulo').value;
+  const cuadrilla = document.getElementById('filtro-cuadrilla').value;
+
+  const btn = document.getElementById('btn-generar');
+  btn.disabled = true; btn.innerHTML = '<span>⏳</span> Consultando...';
+
+  document.getElementById('preview-area').classList.add('hidden');
+  document.getElementById('error-servidor').classList.add('hidden');
+
+  // ── MODO DEMO ─────────────────────────────────────────────────────
+  if (DEMO_MODE) {
+    setTimeout(() => {
+      btn.disabled = false; btn.innerHTML = '<span>🔍</span> Generar Reporte';
+      const resp = getDemoData();
+      reporteData = { inicio, fin, modulo, cuadrilla, ...resp.data };
+      renderPreview(reporteData);
+      document.getElementById('preview-area').classList.remove('hidden');
+      toast('✅ Modo demo — 6 registros de ejemplo', 'success');
+    }, 800);
+    return;
+  }
+
+  setLoading(true);
+
+  const params = new URLSearchParams({ action: 'get_reporte', fecha_inicio: inicio, fecha_fin: fin, modulo, cuadrilla });
+
+  function doRequest(apiBase, isRetry) {
+    const cbName = '_rpCb_' + Date.now();
+    params.set('callback', cbName);
+
+    const script = document.createElement('script');
+    const timeoutId = setTimeout(() => {
+      script.remove(); delete window[cbName];
+      if (!isRetry && API_URL_2) {
+        document.getElementById('loading-msg').textContent = '⚠️ Servidor 1 sin respuesta, reintentando...';
+        doRequest(API_URL_2, true);
+      } else {
+        setLoading(false);
+        btn.disabled = false; btn.innerHTML = '<span>🔍</span> Generar Reporte';
+        mostrarErrorServidor();
+      }
+    }, 15000);
+
+    window[cbName] = function(resp) {
+      clearTimeout(timeoutId);
+      script.remove(); delete window[cbName];
+      btn.disabled = false; btn.innerHTML = '<span>🔍</span> Generar Reporte';
+      setLoading(false);
+
+      if (!resp || !resp.ok) {
+        if (!isRetry && API_URL_2) {
+          document.getElementById('loading-msg').textContent = '⚠️ Error servidor 1, reintentando...';
+          setLoading(true);
+          doRequest(API_URL_2, true);
+          return;
+        }
+        toast('Error: ' + (resp?.error || 'Respuesta inválida'), 'error');
+        mostrarErrorServidor(resp?.error);
+        return;
+      }
+
+      const d = resp.data || { recibos:[], armados:[], embarques:[] };
+      reporteData = {
+        inicio, fin, modulo, cuadrilla,
+        recibos:   d.recibos   || [],
+        armados:   d.armados   || [],
+        embarques: d.embarques || []
+      };
+
+      renderPreview(reporteData);
+      document.getElementById('preview-area').classList.remove('hidden');
+
+      const total = reporteData.recibos.length + reporteData.armados.length + reporteData.embarques.length;
+      toast(total > 0 ? `✅ ${total} registros encontrados` : '⚠️ Sin registros en ese período', total > 0 ? 'success' : '');
+    };
+
+    script.onerror = () => {
+      clearTimeout(timeoutId); script.remove(); delete window[cbName];
+      if (!isRetry && API_URL_2) { setLoading(true); doRequest(API_URL_2, true); return; }
+      setLoading(false);
+      btn.disabled = false; btn.innerHTML = '<span>🔍</span> Generar Reporte';
+      toast('Error de red', 'error');
+    };
+
+    script.src = apiBase + '?' + params.toString();
+    document.head.appendChild(script);
+  }
+
+  doRequest(API_URL, false);
+}
+
+// ══════════════════════════════════════════════════════════════════
+//  RENDER PREVIEW
+// ══════════════════════════════════════════════════════════════════
+function renderPreview(d) {
+  const { recibos, armados, embarques } = d;
+  const total = recibos.length + armados.length + embarques.length;
+
+  // ── ESTADÍSTICAS GENERALES ──────────────────────────────────────
+  const finalizados = [...recibos, ...armados, ...embarques].filter(r => {
+    const s = (r.estado || '').toLowerCase();
+    return s.includes('finaliz') || s.includes('ok') || s.includes('completo');
+  }).length;
+  const cancelados = embarques.filter(e => (e.estado || '').toLowerCase().includes('cancelado')).length;
+  const pendientes = total - finalizados - cancelados;
+  const totalChep  = [...recibos, ...embarques].reduce((s, r) => s + (Number(r.pallets_chep) || 0), 0);
+  const totalBlancas = [...recibos, ...embarques].reduce((s, r) => s + (Number(r.pallets_blancas) || 0), 0);
+
+  document.getElementById('stats-generales').innerHTML =
+    makeStat('Total Registros',  total) +
+    makeStat('Finalizados',      finalizados, total > 0 ? Math.round(finalizados / total * 100) + '%' : '') +
+    makeStat('Pendientes',       Math.max(0, pendientes)) +
+    (cancelados ? makeStat('Cancelados', cancelados) : '') +
+    makeStat('Pallets CHEP',    totalChep) +
+    makeStat('Pallets Blancas', totalBlancas) +
+    makeStat('Recibos',   recibos.length) +
+    makeStat('Armados',   armados.length) +
+    makeStat('Embarques', embarques.length);
+
+  // ── RECIBOS ─────────────────────────────────────────────────────
+  if (recibos.length) {
+    const chepR   = recibos.reduce((s, r) => s + (Number(r.pallets_chep) || 0), 0);
+    const blancasR = recibos.reduce((s, r) => s + (Number(r.pallets_blancas) || 0), 0);
+    document.getElementById('stats-recibos').innerHTML =
+      makeStat('CHEP Total', chepR) + makeStat('Blancas Total', blancasR);
+    document.getElementById('tbody-recibos').innerHTML = recibos.map(r =>
+      `<tr>
+        <td>${r.fecha || '—'}</td><td>${r.cuadrilla || '—'}</td><td>${r.auditor || '—'}</td>
+        <td>${r.sto || '—'}</td><td>${r.cortina || '—'}</td><td>${r.tipo_recibo || '—'}</td>
+        <td>${r.pallets_chep || 0}</td><td>${r.pallets_blancas || 0}</td>
+        <td><span class="badge ${badgeClass(r.estado)}">${r.estado || '—'}</span></td>
+      </tr>`).join('');
+    document.getElementById('seccion-recibos').classList.remove('hidden');
+  } else {
+    document.getElementById('seccion-recibos').classList.add('hidden');
+  }
+
+  // ── ARMADOS ─────────────────────────────────────────────────────
+  if (armados.length) {
+    document.getElementById('tbody-armados').innerHTML = armados.map(r =>
+      `<tr>
+        <td>${r.fecha || '—'}</td><td>${r.cuadrilla || '—'}</td><td>${r.auditor || '—'}</td>
+        <td>${r.unidad_envio || '—'}</td><td>${r.subtipo || '—'}</td><td>${r.cliente || '—'}</td>
+        <td>${r.pallets_chep || 0}</td><td>${r.pallets_blancas || 0}</td>
+        <td><span class="badge ${badgeClass(r.estado)}">${r.estado || '—'}</span></td>
+      </tr>`).join('');
+    document.getElementById('seccion-armados').classList.remove('hidden');
+  } else {
+    document.getElementById('seccion-armados').classList.add('hidden');
+  }
+
+  // ── EMBARQUES ────────────────────────────────────────────────────
+  if (embarques.length) {
+    const activos  = embarques.filter(e => !(e.estado || '').toLowerCase().includes('cancelado'));
+    const mcInc    = activos.filter(e => (e.status_mc || '').toLowerCase().includes('incorrecto')).length;
+    const mcCorr   = activos.filter(e => { const s=(e.status_mc||'').toLowerCase(); return s.includes('correcto')&&!s.includes('incorrecto'); }).length;
+    const chepE    = activos.reduce((s, r) => s + (Number(r.pallets_chep) || 0), 0);
+    const blancasE = activos.reduce((s, r) => s + (Number(r.pallets_blancas) || 0), 0);
+    const difWarn  = activos.filter(e => {
+      const d1 = Number(e.dif_prime_mc), d2 = Number(e.dif_mc_factura);
+      return (!isNaN(d1) && d1 !== 0) || (!isNaN(d2) && d2 !== 0);
+    }).length;
+
+    document.getElementById('stats-embarques').innerHTML =
+      makeStat('Activos', activos.length) +
+      makeStat('Cancelados', cancelados) +
+      makeStat('MC Correcto', mcCorr) +
+      (mcInc ? makeStat('MC Incorrecto', mcInc) : '') +
+      makeStat('CHEP', chepE) + makeStat('Blancas', blancasE) +
+      (difWarn ? makeStat('Con Diferencias', difWarn) : '');
+
+    document.getElementById('tbody-embarques').innerHTML = embarques.map(r => {
+      const dp = (r.dif_prime_mc !== undefined && r.dif_prime_mc !== '' && r.dif_prime_mc !== '—')
+        ? `<span class="badge ${Number(r.dif_prime_mc) === 0 ? 'badge-ok' : 'badge-warn'}">${r.dif_prime_mc}</span>` : '—';
+      const dm = (r.dif_mc_factura !== undefined && r.dif_mc_factura !== '' && r.dif_mc_factura !== '—')
+        ? `<span class="badge ${Number(r.dif_mc_factura) === 0 ? 'badge-ok' : 'badge-warn'}">${r.dif_mc_factura}</span>` : '—';
+      return `<tr>
+        <td>${r.fecha||'—'}</td><td>${r.cuadrilla||'—'}</td><td>${r.auditor||'—'}</td>
+        <td>${r.unidad_envio||'—'}</td><td>${r.cliente||'—'}</td><td>${r.cortina||'—'}</td>
+        <td>${r.tipo_carga||'—'}</td><td>${r.status_mc||'—'}</td>
+        <td>${dp}</td><td>${dm}</td>
+        <td><span class="badge ${badgeClass(r.estado)}">${r.estado||'—'}</span></td>
+      </tr>`;
+    }).join('');
+    document.getElementById('seccion-embarques').classList.remove('hidden');
+  } else {
+    document.getElementById('seccion-embarques').classList.add('hidden');
+  }
+
+  // ── IMÁGENES DE EVIDENCIA ────────────────────────────────────────
+  // Las imágenes se incluyen si los registros traen campos foto_url o similar.
+  // Aquí mostramos las unidades/STOs que tienen fotos en Google Drive.
+  const todosRegistros = [...recibos, ...armados, ...embarques];
+  const conFotos = todosRegistros.filter(r =>
+    r.foto_url || r.fotos_urls || r.drive_url || (r.fotos_count && r.fotos_count > 0)
+  );
+
+  const fotosContainer = document.getElementById('fotos-container');
+  if (conFotos.length > 0) {
+    fotosContainer.innerHTML = conFotos.map(r => {
+      const id    = r.unidad_envio || r.sto || r.id || '—';
+      const tipo  = r.tipo || r.tipo_recibo || r.subtipo || '—';
+      const fecha = r.fecha || '—';
+      const urls  = r.fotos_urls ? (Array.isArray(r.fotos_urls) ? r.fotos_urls : [r.fotos_urls])
+                  : r.foto_url   ? [r.foto_url]
+                  : r.drive_url  ? [r.drive_url] : [];
+      return `
+      <div class="card" style="margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+          <div>
+            <div style="font-weight:700;font-size:13px">${id}</div>
+            <div style="font-size:10px;color:var(--gray);margin-top:2px">${tipo} · ${fecha}</div>
+          </div>
+          <span class="badge badge-ok">${r.fotos_count || urls.length || '?'} foto(s)</span>
+        </div>
+        ${urls.length > 0 ? `<div class="fotos-grid">${urls.map(url =>
+          `<div class="foto-thumb">
+            <img src="${convertDriveUrl(url)}" alt="Evidencia" loading="lazy"
+                 onerror="this.parentNode.innerHTML='<div class=\\'foto-loading\\'>🖼️</div>'">
+          </div>`).join('')}</div>`
+        : `<div style="text-align:center;padding:12px;font-size:11px;color:var(--gray)">
+            📂 ${r.fotos_count || 0} foto(s) en Google Drive · <em>Abre el PDF para verlas en línea</em>
+           </div>`}
+      </div>`;
+    }).join('');
+    document.getElementById('seccion-fotos').classList.remove('hidden');
+  } else {
+    document.getElementById('seccion-fotos').classList.add('hidden');
+  }
+
+  // ── SIN DATOS ────────────────────────────────────────────────────
+  document.getElementById('sin-datos').classList.toggle('hidden', total > 0);
+}
+
+// Convierte URLs de Google Drive a formato visualizable
+function convertDriveUrl(url) {
+  if (!url) return '';
+  // /file/d/ID/view → /uc?export=view&id=ID
+  const m = url.match(/\/d\/([^/]+)/);
+  if (m) return `https://drive.google.com/uc?export=view&id=${m[1]}`;
+  return url;
+}
+
+// ══════════════════════════════════════════════════════════════════
+//  DESCARGAR PDF  (abre ventana print-ready)
+// ══════════════════════════════════════════════════════════════════
+function descargarPDF() {
+  if (!reporteData) { toast('Genera el reporte primero', 'error'); return; }
+  const { inicio, fin, cuadrilla, modulo, recibos, armados, embarques } = reporteData;
+  const moduloLabel = { todos:'Todos los módulos', embarque:'Embarque', recibo:'Recibo de Importados', armado:'Armados' }[modulo] || modulo || 'Todos';
+  const fmt = v => v ? new Date(v + 'T12:00:00').toLocaleDateString('es-MX', { day:'numeric', month:'short', year:'numeric' }) : '—';
+  const bClass = s => { const l=(s||'').toLowerCase(); return l.includes('finaliz')||l.includes('ok')?'ok':l.includes('cancel')?'cancel':'warn'; };
+  const total = recibos.length + armados.length + embarques.length;
+  const finalizados = [...recibos,...armados,...embarques].filter(r=>{const s=(r.estado||'').toLowerCase();return s.includes('finaliz')||s.includes('ok')||s.includes('completo');}).length;
+  const cancelados  = embarques.filter(e=>(e.estado||'').toLowerCase().includes('cancelado')).length;
+  const totalChep   = [...recibos,...embarques].reduce((s,r)=>s+(Number(r.pallets_chep)||0),0);
+  const totalBlancas= [...recibos,...embarques].reduce((s,r)=>s+(Number(r.pallets_blancas)||0),0);
+
+  // ── CONSTRUIR HTML DEL PDF ────────────────────────────────────────
+  let body = '';
+
+  // Header
+  body += `
+  <div class="wrap">
+  <div class="pdf-header">
+    <div class="pdf-header-inner">
+      <div>
+        <div class="pdf-overline">SISTEMA DE AUDITORÍA DE PALLETS</div>
+        <h1>Reporte Histórico de Auditoría</h1>
+      </div>
+      <div class="pdf-meta-block">
+        <div>📅 Período: <strong>${fmt(inicio)} — ${fmt(fin)}</strong></div>
+        <div>🏷️ Módulo: <strong>${moduloLabel}</strong></div>
+        <div>👥 Cuadrilla: <strong>${cuadrilla || 'Todas'}</strong></div>
+      </div>
+    </div>
+    <div class="pdf-generated">Generado el ${new Date().toLocaleString('es-MX',{weekday:'long',year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'})}</div>
+  </div>`;
+
+  // Resumen General
+  body += `
+  <div class="pdf-section">
+    <h2 class="pdf-section-title">📈 Resumen General</h2>
+    <div class="pdf-grid">
+      ${pdfStat('Total Registros', total)}
+      ${pdfStat('Finalizados', finalizados + (total > 0 ? ` <span class="pdf-badge ok">${Math.round(finalizados/total*100)}%</span>` : ''))}
+      ${pdfStat('Pendientes', Math.max(0, total-finalizados-cancelados))}
+      ${cancelados ? pdfStat('Cancelados', `${cancelados} <span class="pdf-badge cancel">⚠</span>`) : ''}
+      ${pdfStat('Pallets CHEP', totalChep)}
+      ${pdfStat('Pallets Blancas', totalBlancas)}
+      ${pdfStat('Recibos', recibos.length)}
+      ${pdfStat('Armados', armados.length)}
+      ${pdfStat('Embarques', embarques.length)}
+    </div>
+  </div>`;
+
+  // Recibos
+  if (recibos.length) {
+    const chepR   = recibos.reduce((s,r)=>s+(Number(r.pallets_chep)||0),0);
+    const blancasR = recibos.reduce((s,r)=>s+(Number(r.pallets_blancas)||0),0);
+    body += `
+    <div class="pdf-section">
+      <h2 class="pdf-section-title">📦 Recibo de Importados (${recibos.length})</h2>
+      <div class="pdf-grid" style="margin-bottom:10px">
+        ${pdfStat('CHEP Total', chepR)}${pdfStat('Blancas Total', blancasR)}
+      </div>
+      <table class="pdf-table">
+        <thead><tr><th>Fecha</th><th>Cuad.</th><th>Auditor</th><th>STO</th><th>Cortina</th><th>Tipo</th><th>CHEP</th><th>Blancas</th><th>Estado</th></tr></thead>
+        <tbody>
+          ${recibos.map(r => `<tr>
+            <td>${r.fecha||'—'}</td><td>${r.cuadrilla||'—'}</td><td>${r.auditor||'—'}</td>
+            <td>${r.sto||'—'}</td><td>${r.cortina||'—'}</td><td>${r.tipo_recibo||'—'}</td>
+            <td>${r.pallets_chep||0}</td><td>${r.pallets_blancas||0}</td>
+            <td><span class="pdf-badge ${bClass(r.estado)}">${r.estado||'—'}</span></td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+      ${renderFotosSectionPDF(recibos, 'Recibo')}
+    </div>`;
+  }
+
+  // Armados
+  if (armados.length) {
+    body += `
+    <div class="pdf-section">
+      <h2 class="pdf-section-title">🔧 Armados (${armados.length})</h2>
+      <table class="pdf-table">
+        <thead><tr><th>Fecha</th><th>Cuad.</th><th>Auditor</th><th>Unidad</th><th>Subtipo</th><th>Cliente</th><th>CHEP</th><th>Blancas</th><th>Estado</th></tr></thead>
+        <tbody>
+          ${armados.map(r => `<tr>
+            <td>${r.fecha||'—'}</td><td>${r.cuadrilla||'—'}</td><td>${r.auditor||'—'}</td>
+            <td>${r.unidad_envio||'—'}</td><td>${r.subtipo||'—'}</td><td>${r.cliente||'—'}</td>
+            <td>${r.pallets_chep||0}</td><td>${r.pallets_blancas||0}</td>
+            <td><span class="pdf-badge ${bClass(r.estado)}">${r.estado||'—'}</span></td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+      ${renderFotosSectionPDF(armados, 'Armado')}
+    </div>`;
+  }
+
+  // Embarques
+  if (embarques.length) {
+    const activos  = embarques.filter(e=>!(e.estado||'').toLowerCase().includes('cancelado'));
+    const mcInc    = activos.filter(e=>(e.status_mc||'').toLowerCase().includes('incorrecto')).length;
+    const mcCorr   = activos.filter(e=>{const s=(e.status_mc||'').toLowerCase();return s.includes('correcto')&&!s.includes('incorrecto');}).length;
+    const assetSi  = embarques.filter(e=>String(e.ajuste_asset_type||'').toUpperCase()==='SÍ').length;
+    const chepE    = activos.reduce((s,r)=>s+(Number(r.pallets_chep)||0),0);
+    const blancasE = activos.reduce((s,r)=>s+(Number(r.pallets_blancas)||0),0);
+    const difWarn  = activos.filter(e=>{
+      const d1=Number(e.dif_prime_mc),d2=Number(e.dif_mc_factura);
+      return(!isNaN(d1)&&d1!==0)||(!isNaN(d2)&&d2!==0);
+    }).length;
+    body += `
+    <div class="pdf-section">
+      <h2 class="pdf-section-title">🚛 Embarques (${embarques.length})</h2>
+      <div class="pdf-grid" style="margin-bottom:10px">
+        ${pdfStat('Activos', activos.length)}
+        ${pdfStat('Cancelados', cancelados)}
+        ${pdfStat('MC Correcto', mcCorr)}
+        ${mcInc ? pdfStat('MC Incorrecto', `${mcInc} <span class="pdf-badge warn">⚠</span>`) : ''}
+        ${pdfStat('CHEP', chepE)}${pdfStat('Blancas', blancasE)}
+        ${difWarn ? pdfStat('Con Diferencias', `${difWarn} <span class="pdf-badge warn">⚠</span>`) : ''}
+        ${assetSi ? pdfStat('Ajustes Asset Type', assetSi) : ''}
+      </div>
+      <table class="pdf-table">
+        <thead><tr><th>Fecha</th><th>Cuad.</th><th>Auditor</th><th>Unidad</th><th>Cliente</th><th>Cortina</th><th>Tipo</th><th>MC</th><th>Dif P/MC</th><th>Dif MC/Fac</th><th>Estado</th></tr></thead>
+        <tbody>
+          ${embarques.map(r => {
+            const dp = (r.dif_prime_mc!==undefined&&r.dif_prime_mc!==''&&r.dif_prime_mc!=='—') ? `<span class="pdf-badge ${Number(r.dif_prime_mc)===0?'ok':'warn'}">${r.dif_prime_mc}</span>` : '—';
+            const dm = (r.dif_mc_factura!==undefined&&r.dif_mc_factura!==''&&r.dif_mc_factura!=='—') ? `<span class="pdf-badge ${Number(r.dif_mc_factura)===0?'ok':'warn'}">${r.dif_mc_factura}</span>` : '—';
+            return `<tr>
+              <td>${r.fecha||'—'}</td><td>${r.cuadrilla||'—'}</td><td>${r.auditor||'—'}</td>
+              <td>${r.unidad_envio||'—'}</td><td>${r.cliente||'—'}</td><td>${r.cortina||'—'}</td>
+              <td>${r.tipo_carga||'—'}</td><td>${r.status_mc||'—'}</td>
+              <td>${dp}</td><td>${dm}</td>
+              <td><span class="pdf-badge ${bClass(r.estado)}">${r.estado||'—'}</span></td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+      ${renderFotosSectionPDF(embarques, 'Embarque')}
+    </div>`;
+  }
+
+  // Sin datos
+  if (!total) {
+    body += `<div class="pdf-section" style="text-align:center;padding:40px">
+      <div style="font-size:40px;margin-bottom:12px">📭</div>
+      <div style="font-weight:700;font-size:16px">Sin registros en este período</div>
+    </div>`;
+  }
+
+  // Footer
+  body += `
+  <div class="pdf-footer">
+    <span>Sistema de Auditoría de Pallets</span>
+    <span>${new Date().toLocaleDateString('es-MX',{year:'numeric',month:'long',day:'numeric'})}</span>
+  </div>
+  </div>`; // end .wrap
+
+  // ── ABRIR VENTANA DE IMPRESIÓN ────────────────────────────────────
+  const w = window.open('', '_blank', 'width=1100,height=800');
+  w.document.write(`<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="UTF-8">
+<title>Reporte Histórico ${inicio} — ${fin}</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'IBM Plex Sans',sans-serif;background:#E8E8E8;padding:30px 20px;color:#1A1A1A;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.wrap{max-width:1040px;margin:0 auto;background:#fff;box-shadow:0 8px 40px rgba(0,0,0,.18);border-radius:2px;overflow:hidden}
+/* HEADER */
+.pdf-header{background:linear-gradient(135deg,#CF002E 0%,#8B001F 100%);padding:28px 36px 24px;color:white;position:relative}
+.pdf-header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:#FDD000}
+.pdf-header-inner{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.pdf-overline{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:2px;opacity:.7;margin-bottom:5px}
+.pdf-header h1{font-family:'IBM Plex Sans Condensed',sans-serif;font-size:26px;font-weight:800;letter-spacing:-.3px}
+.pdf-meta-block{text-align:right;font-size:10px;opacity:.8;line-height:1.8}
+.pdf-meta-block strong{color:#FDD000}
+.pdf-generated{font-size:9px;opacity:.6;margin-top:10px;padding-top:8px;border-top:1px solid rgba(255,255,255,.2)}
+/* SECTION */
+.pdf-section{padding:20px 32px;border-bottom:1px solid #EAEAEA}
+.pdf-section:last-of-type{border-bottom:none}
+.pdf-section-title{font-family:'IBM Plex Sans Condensed',sans-serif;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#CF002E;margin-bottom:14px;padding-bottom:6px;border-bottom:2.5px solid #FDD000;display:flex;align-items:center;gap:6px}
+/* GRID */
+.pdf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px;margin-bottom:12px}
+.pdf-stat{background:#FAFAFA;border-radius:4px;padding:11px 14px;border:1px solid #E8E8E8;border-left:3px solid #CF002E}
+.pdf-stat-lbl{font-size:8px;font-weight:700;text-transform:uppercase;color:#888;letter-spacing:.6px;margin-bottom:4px}
+.pdf-stat-val{font-family:'IBM Plex Sans Condensed',sans-serif;font-weight:700;font-size:18px;color:#1A1A1A;line-height:1}
+/* BADGE */
+.pdf-badge{display:inline-block;padding:2px 8px;border-radius:3px;font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.pdf-badge.ok{background:#FDD000;color:#5A3D00}
+.pdf-badge.warn{background:rgba(207,0,46,.12);color:#CF002E;border:1px solid rgba(207,0,46,.25)}
+.pdf-badge.cancel{background:rgba(100,0,20,.08);color:#8B001F;border:1px solid rgba(100,0,20,.2)}
+/* TABLE */
+.pdf-table{width:100%;border-collapse:collapse;font-size:10px;margin-top:8px}
+.pdf-table thead tr{background:#1A1A1A}
+.pdf-table th{color:white;padding:8px 10px;text-align:left;font-size:8px;text-transform:uppercase;letter-spacing:.6px;font-weight:600}
+.pdf-table td{padding:7px 10px;border-bottom:1px solid #EAEAEA;vertical-align:middle}
+.pdf-table tr:nth-child(even) td{background:#FAFAFA}
+/* FOTOS */
+.fotos-titulo{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#888;margin:14px 0 8px}
+.fotos-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:8px}
+.foto-item img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:4px;display:block;border:1px solid #E8E8E8}
+.foto-caption{font-size:8px;color:#888;margin-top:3px;text-align:center}
+/* FOOTER */
+.pdf-footer{background:#1A1A1A;padding:14px 32px;color:rgba(255,255,255,.5);font-size:9px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;letter-spacing:.4px}
+/* PRINT */
+@media print{
+  body{background:white;padding:0}
+  .wrap{box-shadow:none;border-radius:0}
+  .pdf-table{page-break-inside:auto}
+  .pdf-table tr{page-break-inside:avoid}
+  .pdf-section{page-break-inside:avoid}
+  .fotos-grid{page-break-inside:avoid}
+}
+</style></head><body>
+${body}
+<script>
+  // Espera que carguen las imágenes antes de imprimir
+  let imagesLoaded = 0;
+  const allImgs = document.querySelectorAll('img');
+  if (allImgs.length === 0) {
+    setTimeout(() => { window.print(); }, 600);
+  } else {
+    const tryPrint = () => { imagesLoaded++; if (imagesLoaded >= allImgs.length) setTimeout(() => window.print(), 400); };
+    allImgs.forEach(img => { img.onload = tryPrint; img.onerror = tryPrint; if (img.complete) tryPrint(); });
+    setTimeout(() => window.print(), 5000); // fallback
+  }
+<\/script>
+</body></html>`);
+  w.document.close();
+  toast('📄 Abriendo para imprimir / guardar PDF', 'success');
+}
+
+// ── Helpers para el HTML del PDF ─────────────────────────────────
+function pdfStat(lbl, val) {
+  return `<div class="pdf-stat"><div class="pdf-stat-lbl">${lbl}</div><div class="pdf-stat-val">${val}</div></div>`;
+}
+
+function renderFotosSectionPDF(registros, tipoLabel) {
+  const conFotos = registros.filter(r =>
+    r.foto_url || r.fotos_urls || r.drive_url || (r.fotos_count && r.fotos_count > 0)
+  );
+  if (!conFotos.length) return '';
+
+  let html = `<div class="fotos-titulo">📸 Evidencia Fotográfica — ${tipoLabel}</div>`;
+  conFotos.forEach(r => {
+    const id   = r.unidad_envio || r.sto || r.id || '—';
+    const urls = r.fotos_urls ? (Array.isArray(r.fotos_urls) ? r.fotos_urls : [r.fotos_urls])
+               : r.foto_url   ? [r.foto_url]
+               : r.drive_url  ? [r.drive_url] : [];
+    if (urls.length > 0) {
+      html += `<div class="fotos-grid">
+        ${urls.map(url => `<div class="foto-item">
+          <img src="${convertDriveUrl(url)}" alt="Evidencia ${id}" loading="eager">
+          <div class="foto-caption">${id}</div>
+        </div>`).join('')}
+      </div>`;
+    }
+  });
+  return html;
+}
+
+// ══════════════════════════════════════════════════════════════════
+//  INIT — precarga la fecha de hoy
+// ══════════════════════════════════════════════════════════════════
+window.onload = () => {
+  const hoy = new Date().toISOString().slice(0, 10);
+  // Fecha fin = hoy
+  document.getElementById('fecha-fin').value = hoy;
+  // Fecha inicio = 7 días antes
+  const hace7 = new Date(); hace7.setDate(hace7.getDate() - 7);
+  document.getElementById('fecha-inicio').value = hace7.toISOString().slice(0, 10);
+};
+</script>
+</body>
+</html>
